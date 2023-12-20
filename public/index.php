@@ -7,3 +7,7 @@ use Osumi\OsumiFramework\Core\OCore;
 
 $core = new OCore();
 $core->load();
+
+set_exception_handler([$core, 'errorHandler']);
+
+$core->run();

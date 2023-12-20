@@ -47,10 +47,6 @@ class OCore {
 		$basedir = $basedir.'../';
 
 		$this->config = new OConfig($basedir);
-		echo "<pre>";
-		var_dump($this->config);
-		echo "</pre>";
-		exit;
 
 		// Check locale file
 		$locale_file = $this->config->getDir('ofw_locale').$this->config->getLang().'.po';
@@ -58,25 +54,6 @@ class OCore {
 			echo "ERROR: locale file ".$this->config->getLang()." not found.";
 			exit;
 		}
-
-		// Core
-		require $this->config->getDir('ofw_vendor').'log/olog.class.php';
-		require $this->config->getDir('ofw_vendor').'cache/ocache.container.class.php';
-		require $this->config->getDir('ofw_vendor').'cache/ocache.class.php';
-		require $this->config->getDir('ofw_vendor').'core/odto.interface.php';
-		require $this->config->getDir('ofw_vendor').'core/ocomponent.class.php';
-		require $this->config->getDir('ofw_vendor').'core/oservice.class.php';
-		require $this->config->getDir('ofw_vendor').'core/oplugin.class.php';
-		require $this->config->getDir('ofw_vendor').'core/otask.class.php';
-		require $this->config->getDir('ofw_vendor').'core/otranslate.class.php';
-		require $this->config->getDir('ofw_vendor').'routing/omodule.class.php';
-		require $this->config->getDir('ofw_vendor').'routing/omoduleaction.class.php';
-		require $this->config->getDir('ofw_vendor').'routing/oaction.class.php';
-		require $this->config->getDir('ofw_vendor').'routing/oroutecheck.class.php';
-		require $this->config->getDir('ofw_vendor').'routing/ourl.class.php';
-		require $this->config->getDir('ofw_vendor').'tools/oform.class.php';
-		require $this->config->getDir('ofw_vendor').'tools/otools.class.php';
-		require $this->config->getDir('ofw_vendor').'tools/ocolors.class.php';
 
 		// Due to a circular dependancy, check name of the log file after core loading
 		if (is_null($this->config->getLog('name'))) {
@@ -94,16 +71,6 @@ class OCore {
 				echo "ERROR: El sistema no dispone del driver ".$this->config->getDB('driver')." solicitado para realizar la conexión a la base de datos.\n";
 				exit;
 			}
-			require $this->config->getDir('ofw_vendor').'db/odb.container.class.php';
-			require $this->config->getDir('ofw_vendor').'db/odb.class.php';
-			require $this->config->getDir('ofw_vendor').'db/omodel.class.php';
-			require $this->config->getDir('ofw_vendor').'db/omodel.group.class.php';
-			require $this->config->getDir('ofw_vendor').'db/omodel.field.class.php';
-			require $this->config->getDir('ofw_vendor').'db/omodel.field.num.class.php';
-			require $this->config->getDir('ofw_vendor').'db/omodel.field.text.class.php';
-			require $this->config->getDir('ofw_vendor').'db/omodel.field.date.class.php';
-			require $this->config->getDir('ofw_vendor').'db/omodel.field.bool.class.php';
-			require $this->config->getDir('ofw_vendor').'db/omodel.field.float.class.php';
 			define('OMODEL_PK', 1);
 			define('OMODEL_PK_STR', 10);
 			define('OMODEL_CREATED', 2);
@@ -119,62 +86,7 @@ class OCore {
 		}
 
 		if (!$from_cli) {
-			require $this->config->getDir('ofw_vendor').'core/otemplate.class.php';
-			require $this->config->getDir('ofw_vendor').'web/osession.class.php';
-			require $this->config->getDir('ofw_vendor').'web/ocookie.class.php';
-			require $this->config->getDir('ofw_vendor').'web/orequest.class.php';
-
 			$this->session  = new OSession();
-		}
-		else {
-			require $this->config->getDir('ofw_vendor').'core/oupdate.class.php';
-		}
-
-		// Plugins
-		foreach ($this->config->getPlugins() as $p) {
-			$plugin = new OPlugin($p);
-			$plugin->load();
-		}
-
-		// OFW Tasks
-		if ($model = opendir($this->config->getDir('ofw_task'))) {
-			while (false !== ($entry = readdir($model))) {
-				if ($entry != '.' && $entry != '..') {
-					require $this->config->getDir('ofw_task').$entry;
-				}
-			}
-			closedir($model);
-		}
-
-		// Libs
-		$lib_list = $this->config->getLibs();
-		foreach ($lib_list as $lib) {
-			$lib_file = $this->config->getDir('ofw_lib').$lib.'.php';
-			if (file_exists($lib_file)) {
-				require $this->config->getDir('ofw_lib').$lib.'.php';
-			}
-			else {
-				echo "ERROR: Lib file \"".$lib_file."\" not found.\n";
-				exit;
-			}
-		}
-
-		// Database model classes
-		if (file_exists($this->config->getDir('app_model')) && !is_null($this->dbContainer)) {
-			if ($model = opendir($this->config->getDir('app_model'))) {
-				while (false !== ($entry = readdir($model))) {
-					if ($entry != '.' && $entry != '..') {
-						$model_path = $this->config->getDir('app_model').$entry;
-						require $model_path;
-						$model_content = file_get_contents($model_path);
-						$services = $this->getContentServices($model_content);
-						foreach ($services as $service) {
-							$this->loadService($service);
-						}
-					}
-				}
-				closedir($model);
-			}
 		}
 
 		// Set up an empty cache container

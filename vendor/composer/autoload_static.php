@@ -10,13 +10,18 @@ class ComposerStaticInit4141e5aa988fd88dadb2a22e6070e031
         'O' => 
         array (
             'Osumi\\OsumiFramework\\' => 21,
+            'Osumi\\App\\' => 10,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
         'Osumi\\OsumiFramework\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/src/osumi/osumi-framework',
+            0 => __DIR__ . '/..' . '/osumi/osumi-framework',
+        ),
+        'Osumi\\App\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
         ),
     );
 

@@ -91,7 +91,6 @@ class OConfig {
 				$this->loadConfig($config_env);
 			}
 		}
-		$this->setPlugins($this->getInstalledPlugins());
 	}
 
 	/**
@@ -300,79 +299,6 @@ class OConfig {
 	}
 
 	/**
-	 * Reads installed plugins directory and returns a list
-	 *
-	 * @return array List of installed plugins
-	 */
-	public function getInstalledPlugins(): array {
-		$list = [];
-		if ($model = opendir($this->getDir('ofw_plugins'))) {
-			while (false !== ($entry = readdir($model))) {
-				if ($entry != '.' && $entry != '..' && is_dir($this->getDir('ofw_plugins').$entry)) {
-					array_push($list, $entry);
-				}
-			}
-			closedir($model);
-		}
-		return $list;
-	}
-
-	/**
-	 * Set list of installed plugins
-	 *
-	 * @param array $p Installed plugin list
-	 *
-	 * @return void
-	 */
-	public function setPlugins(array $p): void {
-		$this->plugins = $p;
-	}
-
-	/**
-	 * Get full list of installed plugins
-	 *
-	 * @return array List of installed plugins
-	 */
-	public function getPlugins(): array {
-		return $this->plugins;
-	}
-
-	/**
-	 * Check if plugin is installed
-	 *
-	 * @param string $p Code name of the plugin
-	 *
-	 * @return bool Plugin is installed or not
-	 */
-	public function getPlugin(string $p): bool {
-		return in_array($p, $this->plugins);
-	}
-
-	/**
-	 * Set configuration fields of a plugin
-	 *
-	 * @param string $plugin Name of the plugin
-	 *
-	 * @param array $plugin_conf Array of configuration fields for the plugin
-	 *
-	 * @return void
-	 */
-	public function setPluginConfig(string $plugin, array $plugin_conf): void {
-		$this->plugin_config[$plugin] = $plugin_conf;
-	}
-
-	/**
-	 * Get configuration fields of a plugin
-	 *
-	 * @param string $plugin Name of the plugin
-	 *
-	 * @return array Array of configuration fields for the plugin or null if not found
-	 */
-	public function getPluginConfig(string $plugin): ?array {
-		return array_key_exists($plugin, $this->plugin_config) ? $this->plugin_config[$plugin] : null;
-	}
-
-	/**
 	 * Set list of framework and user defined directories
 	 *
 	 * @param string $dir Name or code of the directory
@@ -421,16 +347,13 @@ class OConfig {
 		$this->setDir('app_utils',      $bd.'src/utils/');
 		$this->setDir('ofw',            $bd.'ofw/');
 		$this->setDir('ofw_cache',      $bd.'ofw/cache/');
-		$this->setDir('ofw_vendor',     $bd.'ofw/vendor/');
-		$this->setDir('ofw_lib',        $bd.'ofw/lib/');
-		$this->setDir('ofw_locale',     $bd.'ofw/locale/');
-		$this->setDir('ofw_plugins',    $bd.'ofw/plugins/');
-		$this->setDir('ofw_task',       $bd.'ofw/task/');
 		$this->setDir('ofw_export',     $bd.'ofw/export/');
-		$this->setDir('ofw_template',   $bd.'ofw/template/');
 		$this->setDir('ofw_tmp',        $bd.'ofw/tmp/');
+		$this->setDir('ofw_assets',     $bd.'vendor/osumi/osumi-framework/Assets/');
+		$this->setDir('ofw_locale',     $bd.'vendor/osumi/osumi-framework/Assets/locale/');
+		$this->setDir('ofw_template',   $bd.'vendor/osumi/osumi-framework/Assets/template/');
 		$this->setDir('logs',           $bd.'logs/');
-		$this->setDir('web',            $bd.'web/');
+		$this->setDir('public',         $bd.'public/');
 	}
 
 	/**
