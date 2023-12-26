@@ -335,24 +335,25 @@ class OConfig {
 	private function setBaseDir(string $bd): void {
 		$this->setDir('base',           $bd);
 		$this->setDir('app',            $bd.'src/');
-		$this->setDir('app_config',     $bd.'src/config/');
-		$this->setDir('app_component',  $bd.'src/component/');
-		$this->setDir('app_dto',        $bd.'src/dto/');
-		$this->setDir('app_filter',     $bd.'src/filter/');
-		$this->setDir('app_model',      $bd.'src/model/');
-		$this->setDir('app_module',     $bd.'src/module/');
-		$this->setDir('app_layout',     $bd.'src/layout/');
-		$this->setDir('app_service',    $bd.'src/service/');
-		$this->setDir('app_task',       $bd.'src/task/');
-		$this->setDir('app_utils',      $bd.'src/utils/');
+		$this->setDir('app_config',     $bd.'src/Config/');
+		$this->setDir('app_component',  $bd.'src/Component/');
+		$this->setDir('app_dto',        $bd.'src/DTO/');
+		$this->setDir('app_filter',     $bd.'src/Filter/');
+		$this->setDir('app_model',      $bd.'src/Model/');
+		$this->setDir('app_module',     $bd.'src/Module/');
+		$this->setDir('app_layout',     $bd.'src/Layout/');
+		$this->setDir('app_service',    $bd.'src/Service/');
+		$this->setDir('app_task',       $bd.'src/Task/');
+		$this->setDir('app_utils',      $bd.'src/Utils/');
 		$this->setDir('ofw',            $bd.'ofw/');
 		$this->setDir('ofw_cache',      $bd.'ofw/cache/');
 		$this->setDir('ofw_export',     $bd.'ofw/export/');
 		$this->setDir('ofw_tmp',        $bd.'ofw/tmp/');
+		$this->setDir('logs',           $bd.'ofw/logs/');
+		$this->setDir('ofw_vendor',     $bd.'vendor/osumi/osumi-framework/');
 		$this->setDir('ofw_assets',     $bd.'vendor/osumi/osumi-framework/Assets/');
 		$this->setDir('ofw_locale',     $bd.'vendor/osumi/osumi-framework/Assets/locale/');
 		$this->setDir('ofw_template',   $bd.'vendor/osumi/osumi-framework/Assets/template/');
-		$this->setDir('logs',           $bd.'logs/');
 		$this->setDir('public',         $bd.'public/');
 	}
 

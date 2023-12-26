@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Osumi\OsumiFramework\App\Module\ApiModule\Actions;
+namespace Osumi\OsumiFramework\App\Module\ApiModule\Actions\GetUser;
 
 use Osumi\OsumiFramework\Routing\OModuleAction;
 use Osumi\OsumiFramework\Routing\OAction;

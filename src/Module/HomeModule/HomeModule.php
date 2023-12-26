@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Osumi\OsumiFramework\App\Module;
+namespace Osumi\OsumiFramework\App\Module\HomeModule;
 
 use Osumi\OsumiFramework\Routing\OModule;
 
@@ -9,6 +9,6 @@ use Osumi\OsumiFramework\Routing\OModule;
  */
 #[OModule(
 	type: 'html',
-	actions: ['start', 'user', 'filter']
+	actions: ['Start', 'User', 'Filter']
 )]
 class HomeModule {}

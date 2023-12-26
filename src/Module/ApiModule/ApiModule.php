@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Osumi\OsumiFramework\App\Module;
+namespace Osumi\OsumiFramework\App\Module\ApiModule;
 
 use Osumi\OsumiFramework\Routing\OModule;
 
@@ -10,6 +10,6 @@ use Osumi\OsumiFramework\Routing\OModule;
 #[OModule(
 	type: 'json',
 	prefix: '/api',
-	actions: ['getDate', 'getUser', 'getUsers']
+	actions: ['GetDate', 'GetUser', 'GetUsers']
 )]
 class ApiModule {}

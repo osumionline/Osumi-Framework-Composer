@@ -486,7 +486,6 @@ class OTools {
 	public static function updateUrls(bool $silent=false): ?string {
 		global $core;
 		$urls = self::getModuleUrls();
-
 		$urls_cache_file = $core->cacheContainer->getItem('urls');
 		$urls_cache_file->set(json_encode($urls, JSON_UNESCAPED_UNICODE));
 		$urls_cache_file->save();
@@ -518,9 +517,8 @@ class OTools {
 	 */
 	public static function getDocumentation(string $inspectclass): array {
 		global $core;
-		$module_path = $core->config->getDir('app_module').$inspectclass.'/'.$inspectclass.'.module.php';
-		require_once $module_path;
-		$module_name = "\\OsumiFramework\\App\Module\\".$inspectclass."Module";
+		$module_path = $core->config->getDir('app_module').$inspectclass.'/'.$inspectclass.'.php';
+		$module_name = "Osumi\\OsumiFramework\\App\\Module\\".$inspectclass."\\".$inspectclass;
 		$module = new $module_name;
 		$module_attributes = self::getClassAttributes($module);
 
@@ -533,9 +531,8 @@ class OTools {
 
 		$arr = [];
 		foreach($actions as $action_name) {
-			$action_path = $core->config->getDir('app_module').$inspectclass.'/actions/'.$action_name.'/'.$action_name.'.action.php';
-			require_once $action_path;
-			$action_class_name = "\\OsumiFramework\\App\\Module\\Action\\".$action_name.'Action';
+			$action_path = $core->config->getDir('app_module').$inspectclass.'/Actions/'.$action_name.'/'.$action_name.'Action.php';
+			$action_class_name = "Osumi\\OsumiFramework\\App\\Module\\".$inspectclass."\\Actions\\".$action_name."\\".$action_name."Action";
 			$action = new $action_class_name;
 			$action_attributes = self::getClassAttributes($action);
 
@@ -551,7 +548,6 @@ class OTools {
 			];
 			array_push($arr, $action_params);
 		}
-
 		return $arr;
 	}
 
@@ -563,12 +559,11 @@ class OTools {
 	public static function getModuleUrls(): array {
 		global $core;
 		$modules = [];
-		if (file_exists($core->config->getDir('app_module'))) {
+		if (is_dir($core->config->getDir('app_module'))) {
 			if ($model = opendir($core->config->getDir('app_module'))) {
 				while (false !== ($entry = readdir($model))) {
 					if ($entry != '.' && $entry != '..') {
 						array_push($modules, $entry);
-						require_once $core->config->getDir('app_module').$entry.'/'.$entry.'.module.php';
 					}
 				}
 				closedir($model);
@@ -586,7 +581,6 @@ class OTools {
 				array_push($list, $action);
 			}
 		}
-
 		return $list;
 	}
 
@@ -1128,7 +1122,7 @@ class OTools {
 	 */
 	public static function getVersion(): string {
 		global $core;
-		$version_file = $core->config->getDir('ofw_vendor').'version.json';
+		$version_file = $core->config->getDir('ofw_vendor').'composer.json';
 		$version = json_decode( file_get_contents($version_file), true );
 		return $version['version'];
 	}

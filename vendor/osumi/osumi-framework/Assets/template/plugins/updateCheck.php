@@ -1,4 +1,4 @@
-<?php use OsumiFramework\OFW\Tools\OTools; ?>
+<?php use Osumi\OsumiFramework\Tools\OTools; ?>
 
 
   <?php echo $values['colors']->getColoredString('Osumi Framework', 'white', 'blue') ?>

@@ -20,7 +20,10 @@ class OCacheContainer {
 		$this->cache_folder = $core->config->getDir('ofw_cache');
 		$this->loadItems();
 	}
-	
+
+	/**
+	 * Checks if log folder exists and creates it otherwise
+	 */
 	private function checkFolder(OConfig $config): void {
 		if (!is_dir($config->getDir('ofw'))) {
 			mkdir($config->getDir('ofw'));
