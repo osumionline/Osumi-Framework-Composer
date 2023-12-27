@@ -8,7 +8,7 @@ use Osumi\OsumiFramework\Web\ORequest;
 
 #[OModuleAction(
 	url: '/getUser/:id',
-	services: ['user']
+	services: ['User']
 )]
 class GetUserAction extends OAction {
 	/**
@@ -19,7 +19,7 @@ class GetUserAction extends OAction {
 	 */
 	public function run(ORequest $req):void {
 		$status = 'ok';
-		$user = $this->user_service->getUser($req->getParamInt('id'));
+		$user = $this->User_service->getUser($req->getParamInt('id'));
 
 		if (is_null($user)) {
 			$status = 'error';

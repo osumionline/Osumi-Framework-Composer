@@ -128,10 +128,8 @@ class OCore {
 				$filter_return = null;
 				foreach ($url_result['filters'] as $filter_name => $value) {
 					// Check if the filter's file exist as it is loaded per request
-					$filter_route = $this->config->getDir('app_filter').$filter_name.'.filter.php';
+					$filter_route = $this->config->getDir('app_filter').$filter_name.'Filter.php';
 					if (file_exists($filter_route)) {
-						require_once $filter_route;
-
 						$value = call_user_func(
 							"\\Osumi\\OsumiFramework\\App\\Filter\\".$filter_name."Filter",
 							$url_result['params'],
@@ -167,38 +165,23 @@ class OCore {
 				}
 			}
 
-			// If there are any "utils" classes required to be loaded, load before the controller
-			if (array_key_exists('utils', $url_result) && !is_null($url_result['utils'])) {
-				$utils = explode(',', $url_result['utils']);
-				foreach ($utils as $util) {
-					$util_file = $this->config->getDir('app_utils').$util.'.php';
-					if (file_exists($util_file)) {
-						require_once $util_file;
-					}
-				}
-			}
-
-			$module_path = $this->config->getDir('app_module').$url_result['module'].'/'.$url_result['module'].'.module.php';
+			$module_path = $this->config->getDir('app_module').$url_result['module'].'/'.$url_result['module'].'.php';
 
 			if (file_exists($module_path)) {
-				require_once $module_path;
-				$module_name = "\\Osumi\\OsumiFramework\\App\\Module\\".$url_result['module'].'Module';
+				$module_name = "\\Osumi\\OsumiFramework\\App\\Module\\".$url_result['module']."\\".$url_result['module'];
 				$module = new $module_name;
 				$module_attributes = OTools::getClassAttributes($module);
 
 				if (in_array($url_result['action'], $module_attributes->getActions())) {
-					$action_path = $this->config->getDir('app_module').$url_result['module'].'/actions/'.$url_result['action'].'/'.$url_result['action'].'.action.php';
+					$action_path = $this->config->getDir('app_module').$url_result['module'].'/Actions/'.$url_result['action'].'/'.$url_result['action'].'Action.php';
 					if (file_exists($action_path)) {
-						require_once $action_path;
-
-						$this->eagerLoader($action_path);
-
-						$action_name = "\\Osumi\\OsumiFramework\\App\\Module\\Action\\".$url_result['action'].'Action';
+						$action_name = "Osumi\\OsumiFramework\\App\\Module\\".$url_result['module']."\\Actions\\".$url_result['action']."\\".$url_result['action']."Action";
 
 						$action = new $action_name;
 						$action_attributes = OTools::getClassAttributes($action);
 						$reflection_param = new ReflectionParameter([$action_name, 'run'], 0);
 						$reflection_param_type = $reflection_param->getType()->getName();
+
 						$req = new ORequest($url_result);
 						if (str_starts_with($reflection_param_type, 'Osumi\OsumiFramework\App\DTO')) {
 							$param = new $reflection_param_type;
@@ -209,7 +192,7 @@ class OCore {
 						}
 
 						$action->loadAction($url_result, $action_attributes);
-						call_user_func([$action, 'run'], $param);
+						$action->run($param);
 						echo $action->getTemplate()->process();
 					}
 					else {
@@ -230,200 +213,6 @@ class OCore {
 
 		if (!is_null($this->dbContainer)) {
 			$this->dbContainer->closeAllConnections();
-		}
-	}
-
-	/**
-	 * Load an action's required DTO and components
-	 *
-	 * @param string $path Path of the action file that will be checked
-	 *
-	 * @return void
-	 */
-	public function eagerLoader(string $path): void {
-		$action_content = file_get_contents($path);
-
-		// Check for DTOs
-		$dto = $this->getContentDTO($action_content);
-		if (!is_null($dto)) {
-			require_once $this->config->getDir('app_dto').$dto.'.dto.php';
-		}
-
-		// Check for services
-		$services = $this->getContentServiceList($action_content);
-		foreach ($services as $service) {
-			$this->loadService($service);
-		}
-
-		// Check for components
-		$components = $this->getContentComponents($action_content);
-		foreach ($components as $component) {
-			$this->loadComponent($component);
-		}
-	}
-
-	/**
-	 * Load a task's required services and components
-	 *
-	 * @param string $path Path of the action file that will be checked
-	 *
-	 * @return void
-	 */
-	public function taskEagerLoader(string $path): void {
-		$task_content = file_get_contents($path);
-
-		// Check for services
-		$services = $this->getContentServices($task_content);
-		foreach ($services as $service) {
-			$this->loadService($service);
-		}
-
-		// Check for components
-		$components = $this->getContentComponents($task_content);
-		foreach ($components as $component) {
-			$this->loadComponent($component);
-		}
-	}
-
-	/**
-	 * Get the name of the DTO used in an action. If there is no DTO returns null.
-	 *
-	 * @param string $content Content of the action's file
-	 *
-	 * @return string Name of the DTO file used in the action or null if there is no DTO.
-	 */
-	public function getContentDTO(string $content): ?string {
-		preg_match("/use Osumi\\\\OsumiFramework\\\App\\\DTO\\\(.*?);/m", $content, $match);
-		if (!is_null($match) && count($match) > 1) {
-			return OTools::toSnakeCase(str_ireplace("DTO", "", $match[1]));
-		}
-		return null;
-	}
-
-	/**
-	 * Get list of required services in an action. If there are no components returns an empty list.
-	 *
-	 * @param string $content Content of the action's file
-	 *
-	 * @return array List of service names
-	 */
-	public function getContentServiceList(string $content): array {
-		$pattern = "/^\s?services:\s?\t?\[(.*?)]/m";
-		$result = preg_match_all($pattern, $content, $matches);
-		$ret = [];
-
-		if ($result > 0) {
-			$ret = explode(',', $matches[1][0]);
-			for ($i = 0; $i < count($ret); $i++) {
-				$ret[$i] = trim($ret[$i]);
-				$ret[$i] = str_ireplace("'", "", $ret[$i]);
-				$ret[$i] = str_ireplace('"', "", $ret[$i]);
-			}
-		}
-
-		return $ret;
-	}
-
-	/**
-	 *
-	 */
-	public function getContentServices(string $content): array {
-		$pattern = "/use Osumi\\\\OsumiFramework\\\App\\\Service\\\(.*?)Service;/m";
-		$result = preg_match_all($pattern, $content, $matches);
-		$ret = [];
-
-		if ($result > 0) {
-			foreach ($matches[1] as $service) {
-				array_push($ret, $service);
-			}
-		}
-
-		return $ret;
-	}
-
-	/**
-	 * Get the name of the components used in an action. If there are no components returns an empty list.
-	 *
-	 * @param string $content Content of the action's file
-	 *
-	 * @return array List of component names
-	 */
-	public function getContentComponents(string $content): array {
-		$pattern = "/use Osumi\\\\OsumiFramework\\\App\\\Component\\\(.*?);/m";
-		$result = preg_match_all($pattern, $content, $matches);
-		$ret = [];
-
-		if  ($result > 0) {
-			for ($i = 0; $i < count($matches[1]); $i++) {
-				$component = $matches[1][$i];
-				$component_parts = explode('\\', $component);
-				if (count($component_parts) > 1) {
-					$name = array_pop($component_parts);
-					array_push($component_parts, str_ireplace("Component", "", $name));
-				}
-				for ($j = 0; $j < count($component_parts); $j++) {
-					$component_parts[$j] = OTools::toSnakeCase($component_parts[$j]);
-				}
-				array_push($ret, implode('/', $component_parts));
-			}
-		}
-
-		return $ret;
-	}
-
-	/**
-	 * Load a service file
-	 *
-	 * @param string $service Name of the service
-	 *
-	 * @return void
-	 */
-	public function loadService(string $service): void {
-		$service_path = $this->config->getDir('app_service').$service.'.service.php';
-		require_once $service_path;
-
-		$service_content = file_get_contents($service_path);
-		$service_components = $this->getContentComponents($service_content);
-		foreach ($service_components as $component) {
-			$this->loadComponent($component);
-		}
-
-		$services = $this->getContentServices($service_content);
-		foreach ($services as $service) {
-			$this->loadService($service);
-		}
-	}
-
-	/**
-	 * Load a component and it's dependencies
-	 *
-	 * @param string $component Path/name of the component
-	 *
-	 * @return void
-	 */
-	public function loadComponent(string $component): void {
-		$file = $component;
-
-		// Check if component is in a sub-folder
-		if (stripos($component, '/') !== false) {
-			$data = explode('/', $component);
-			$file = array_pop($data);
-		}
-
-		$component_path = $this->config->getDir('app_component').$component.'/'.$file.'.component.php';
-		$template_path = $this->config->getDir('app_component').$component.'/'.$file.'.template.php';
-		if (file_exists($component_path)) {
-			require_once $component_path;
-		}
-
-		$subcomponents = [];
-		$component_content = file_get_contents($component_path);
-		$subcomponents = array_merge($subcomponents, $this->getContentComponents($component_content));
-		$template_content = file_get_contents($template_path);
-		$subcomponents = array_merge($subcomponents, $this->getContentComponents($template_content));
-
-		foreach ($subcomponents as $sub) {
-			$this->loadComponent($sub);
 		}
 	}
 

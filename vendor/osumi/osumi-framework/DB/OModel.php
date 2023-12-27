@@ -9,6 +9,7 @@ use Osumi\OsumiFramework\DB\OModelFieldDate;
 use Osumi\OsumiFramework\DB\OModelFieldBool;
 use Osumi\OsumiFramework\DB\OModelFieldFloat;
 use Osumi\OsumiFramework\Log\Olog;
+use Osumi\OsumiFramework\Tools\OTools;
 use \ReflectionClass;
 
 /**
@@ -47,7 +48,7 @@ class OModel {
 			$full_path = str_ireplace("\\", '/', $full_path);
 			$data = explode('/', $full_path);
 			$file_name = array_pop($data);
-			$table_name = str_ireplace('.model.php', '', $file_name);
+			$table_name = OTools::toSnakeCase(str_ireplace('.php', '', $file_name));
 		}
 
 		$this->db         = new ODB();
@@ -285,7 +286,7 @@ class OModel {
 	 */
 	public function update(array $res): void {
 		foreach ($this->model->getFields() as $field){
-			if (array_key_exists($field->getName(), $res)){
+			if (array_key_exists($field->getName(), $res)) {
 				if (is_null($res[$field->getName()])) {
 					$this->model->getFields()[$field->getName()]->set(null);
 				}

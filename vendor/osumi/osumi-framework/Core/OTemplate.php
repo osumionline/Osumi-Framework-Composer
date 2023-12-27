@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Osumi\OsumiFramework\OFW\Core;
+namespace Osumi\OsumiFramework\Core;
 
 use Osumi\OsumiFramework\Log\Olog;
 use Osumi\OsumiFramework\Tools\OTools;
@@ -29,7 +29,6 @@ class OTemplate {
 	private string      $title         = '';
 	private bool        $json          = false;
 	private string      $lang          = '';
-	private ?OTranslate $translator    = null;
 	private array       $return_types  = [
 		'html' => 'text/html',
 		'json' => 'application/json',
@@ -51,11 +50,6 @@ class OTemplate {
 		$this->layout_dir = $core->config->getDir('app_layout');
 		$this->modules_dir = $core->config->getDir('app_module');
 		$this->title = $core->config->getDefaultTitle();
-
-		if ($core->config->getPlugin('translate')) {
-			$this->lang = $core->config->getLang();
-			$this->translator = new OTranslate();
-		}
 	}
 
 	/**
@@ -127,9 +121,14 @@ class OTemplate {
 	 */
 	public function loadLayout(string $layout=null): void {
 		if (is_null($layout)) {
-			$layout = 'default';
+			$layout = 'Default';
 		}
-		$this->setLayout( file_get_contents($this->layout_dir.$layout.'.layout.php') );
+		if (file_exists($this->layout_dir.$layout.'Layout.php')) {
+			$this->setLayout( file_get_contents($this->layout_dir.$layout.'Layout.php') );
+		}
+		else {
+			$this->setLayout("");
+		}
 	}
 
 	/**
@@ -219,7 +218,7 @@ class OTemplate {
 	 */
 	public function add(string $key, $value, $extra=null): void {
 		$temp = ['name' => $key, 'value' => strval($value)];
-		if (is_object($value) && str_starts_with(get_class($value), 'OsumiFramework\App\Component')) {
+		if (is_object($value) && str_starts_with(get_class($value), 'Osumi\OsumiFramework\App\Component')) {
 			if (property_exists($value, 'css')) {
 				foreach ($value->css as $item) {
 					$css_path = $value->getPath().$item.'.css';
@@ -392,7 +391,7 @@ class OTemplate {
 	public function process(): string {
 		global $core;
 		$this->log('process - Type: '.$this->type);
-		$this->template = file_get_contents($this->modules_dir.$this->module.'/actions/'.$this->action.'/'.$this->action.'.action.'.$this->type);
+		$this->template = file_get_contents($this->modules_dir.$this->module.'/Actions/'.$this->action.'/'.$this->action.'Action.'.$this->type);
 		foreach ($core->config->getCssList() as $css) {
 			$this->addCss($css);
 		}
@@ -480,21 +479,6 @@ class OTemplate {
 		}
 		else {
 			$layout = $str_body;
-		}
-
-		// Add translations
-		if (!is_null($this->translator) && $this->translator->getPage()!='') {
-			// Add page specific translations
-			$trads = $this->translator->getTranslations();
-			foreach ($trads as $trad=>$obj) {
-				$layout = str_replace(['{{trans_'.$trad.'}}'], $obj[$this->lang], $layout);
-			}
-			// Add global translations
-			$this->translator->setPage('general');
-			$trads = $this->translator->getTranslations();
-			foreach ($trads as $trad=>$obj) {
-				$layout = str_replace(['{{trans_general_'.$trad.'}}'], $obj[$this->lang], $layout);
-			}
 		}
 
 		// If type is not html is most likely it's and API call so tell the browsers not to cache it

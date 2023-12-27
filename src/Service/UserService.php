@@ -37,7 +37,6 @@ class UserService extends OService {
 		while ($res=$db->next()) {
 			$user = new User();
 			$user->update($res);
-
 			array_push($list, $user);
 		}
 

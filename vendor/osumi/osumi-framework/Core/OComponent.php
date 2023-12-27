@@ -20,11 +20,11 @@ class OComponent {
 		$full_path = str_ireplace("\\", '/', $full_path);
 		$data = explode('/', $full_path);
 		$file_name = array_pop($data);
-		$name = str_ireplace('.component.php', '', $file_name);
+		$name = str_ireplace('Component.php', '', $file_name);
 
 		$this->path = implode('/', $data).'/';
 		$this->values = $values;
-		$this->template = $this->path.$name.'.template.php';
+		$this->template = $this->path.$name.'ComponentTemplate.php';
 	}
 
 	/**

@@ -8,7 +8,7 @@ use Osumi\OsumiFramework\Web\ORequest;
 
 #[OModuleAction(
 	url: '/filter',
-	filters: ['login', 'user']
+	filters: ['Login', 'User']
 )]
 class FilterAction extends OAction {
 	/**

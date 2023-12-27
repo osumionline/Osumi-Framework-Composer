@@ -68,7 +68,7 @@ class OConfig {
 	 */
 	function __construct(string $bd) {
 		$this->setBaseDir($bd);
-		$json_file = $this->getDir('app_config').'config.json';
+		$json_file = $this->getDir('app_config').'Config.json';
 		$config = [];
 		if (file_exists($json_file)) {
 			$config = json_decode( file_get_contents($json_file), true );
@@ -81,7 +81,7 @@ class OConfig {
 		if (array_key_exists('environment', $config)) {
 			$this->setEnvironment($config['environment']);
 
-			$json_env_file = $this->getDir('app_config').'config.'.$config['environment'].'.json';
+			$json_env_file = $this->getDir('app_config').'Config_'.$config['environment'].'.json';
 			if (file_exists($json_env_file)) {
 				$config_env = json_decode( file_get_contents($json_env_file), true );
 				if (!$config_env) {

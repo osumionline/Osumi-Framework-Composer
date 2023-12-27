@@ -8,7 +8,7 @@ use Osumi\OsumiFramework\Web\ORequest;
 
 #[OModuleAction(
 	url: '/getDate',
-	services: ['user']
+	services: ['User']
 )]
 class GetDateAction extends OAction {
 	/**
@@ -18,6 +18,6 @@ class GetDateAction extends OAction {
 	 * @return void
 	 */
 	public function run(ORequest $req):void {
-		$this->getTemplate()->add('date', $this->user_service->getLastUpdate());
+		$this->getTemplate()->add('date', $this->User_service->getLastUpdate());
 	}
 }

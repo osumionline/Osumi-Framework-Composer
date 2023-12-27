@@ -8,7 +8,7 @@ use Osumi\OsumiFramework\Web\ORequest;
 
 #[OModuleAction(
 	url: '/getUsers',
-	services: ['user']
+	services: ['User']
 )]
 class GetUsersAction extends OAction {
 	/**
@@ -18,6 +18,6 @@ class GetUsersAction extends OAction {
 	 * @return void
 	 */
 	public function run(ORequest $req):void {
-		$this->getTemplate()->addModelComponentList('list', $this->user_service->getUsers(), ['pass']);
+		$this->getTemplate()->addModelComponentList('list', $this->User_service->getUsers(), ['pass']);
 	}
 }

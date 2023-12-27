@@ -155,7 +155,7 @@ class OModelField {
 		$this->ref = $ref;
 		if (!is_null($set_function) && is_array($set_function) && count($set_function) == 2) {
 			if (!str_contains($set_function[0], '\\')) {
-				$set_function[0] = 'OsumiFramework\\App\\Model\\'.$set_function[0];
+				$set_function[0] = 'Osumi\\OsumiFramework\\App\\Model\\'.$set_function[0];
 			}
 			$this->set_function = $set_function;
 		}

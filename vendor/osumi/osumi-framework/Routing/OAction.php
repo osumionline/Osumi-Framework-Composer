@@ -62,7 +62,7 @@ class OAction {
 
 		// Load action's required services
 		foreach ($this->attributes->getServices() as $item) {
-			$service_name = "\\OsumiFramework\\App\\Service\\".$item.'Service';
+			$service_name = "Osumi\\OsumiFramework\\App\\Service\\".$item.'Service';
 			$service = new $service_name;
 			$service->loadService();
 			$this->{$item.'_service'} = $service;
@@ -70,7 +70,7 @@ class OAction {
 
 		// Load action's CSS and JS files
 		foreach ($this->attributes->getInlineCss() as $item) {
-			$css_file = $this->config->getDir('app_module').$url_result['module'].'/actions/'.$url_result['action'].'/'.$item.'.css';
+			$css_file = $this->config->getDir('app_module').$url_result['module'].'/Actions/'.$url_result['action'].'/'.$item.'.css';
 			$this->template->addCss($css_file, true);
 		}
 
@@ -79,7 +79,7 @@ class OAction {
 		}
 
 		foreach ($this->attributes->getInlineJs() as $item) {
-			$js_file = $this->config->getDir('app_module').$url_result['module'].'/actions/'.$url_result['action'].'/'.$item.'.js';
+			$js_file = $this->config->getDir('app_module').$url_result['module'].'/Actions/'.$url_result['action'].'/'.$item.'.js';
 			$this->template->addJs($js_file, true);
 		}
 
