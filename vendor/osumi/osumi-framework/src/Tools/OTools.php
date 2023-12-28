@@ -1122,7 +1122,7 @@ class OTools {
 	 */
 	public static function getVersion(): string {
 		global $core;
-		$version_file = $core->config->getDir('ofw_vendor').'composer.json';
+		$version_file = $core->config->getDir('ofw_base').'composer.json';
 		$version = json_decode( file_get_contents($version_file), true );
 		return $version['version'];
 	}
@@ -1134,7 +1134,7 @@ class OTools {
 	 */
 	public static function getVersionInformation(): string {
 		global $core;
-		$version_file = $core->config->getDir('ofw_vendor').'version.json';
+		$version_file = $core->config->getDir('ofw_base').'version.json';
 		$version = json_decode( file_get_contents($version_file), true );
 		$current_version = $version['version'];
 		return $version['updates'][$current_version]['message'];

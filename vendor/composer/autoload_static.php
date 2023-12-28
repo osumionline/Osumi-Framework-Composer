@@ -21,7 +21,7 @@ class ComposerStaticInit4141e5aa988fd88dadb2a22e6070e031
         ),
         'Osumi\\OsumiFramework\\' => 
         array (
-            0 => __DIR__ . '/..' . '/osumi/osumi-framework',
+            0 => __DIR__ . '/..' . '/osumi/osumi-framework/src',
         ),
     );
 

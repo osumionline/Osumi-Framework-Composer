@@ -8,7 +8,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Osumi\\OsumiFramework\\": "vendor/osumi/osumi-framework/",
+            "Osumi\\OsumiFramework\\": "vendor/osumi/osumi-framework/src/",
             "Osumi\\OsumiFramework\\App\\": "src/"
         }
     },

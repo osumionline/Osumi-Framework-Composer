@@ -43,7 +43,7 @@ class OCore {
 
 		$basedir = realpath(dirname(__FILE__));
 		$basedir = str_ireplace("\\", '/', $basedir);
-		$basedir = str_ireplace('osumi/osumi-framework/Core', '', $basedir);
+		$basedir = str_ireplace('osumi/osumi-framework/src/Core', '', $basedir);
 		$basedir = $basedir.'../';
 
 		$this->config = new OConfig($basedir);
