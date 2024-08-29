@@ -1,5 +1,5 @@
 {
-    "name": "osumi/osumi-framework",
+    "name": "osumionline/osumi-framework",
     "description": "PHP framework to create easily scalable web apps",
     "version": "9.0.0",
     "type": "project",
@@ -8,7 +8,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Osumi\\OsumiFramework\\": "vendor/osumi/osumi-framework/src/",
+            "Osumi\\OsumiFramework\\": "vendor/osumionline/osumi-framework/src/",
             "Osumi\\OsumiFramework\\App\\": "src/"
         }
     },

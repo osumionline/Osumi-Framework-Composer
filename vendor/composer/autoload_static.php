@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit4141e5aa988fd88dadb2a22e6070e031
+class ComposerStaticInitc0c17fb5ce09d97639706b749993d6bf
 {
     public static $prefixLengthsPsr4 = array (
         'O' => 
@@ -21,7 +21,7 @@ class ComposerStaticInit4141e5aa988fd88dadb2a22e6070e031
         ),
         'Osumi\\OsumiFramework\\' => 
         array (
-            0 => __DIR__ . '/..' . '/osumi/osumi-framework/src',
+            0 => __DIR__ . '/..' . '/osumionline/osumi-framework/src',
         ),
     );
 
@@ -32,9 +32,9 @@ class ComposerStaticInit4141e5aa988fd88dadb2a22e6070e031
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit4141e5aa988fd88dadb2a22e6070e031::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit4141e5aa988fd88dadb2a22e6070e031::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit4141e5aa988fd88dadb2a22e6070e031::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitc0c17fb5ce09d97639706b749993d6bf::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitc0c17fb5ce09d97639706b749993d6bf::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitc0c17fb5ce09d97639706b749993d6bf::$classMap;
 
         }, null, ClassLoader::class);
     }

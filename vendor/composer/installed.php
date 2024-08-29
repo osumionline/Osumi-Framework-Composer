@@ -1,6 +1,6 @@
 <?php return array(
     'root' => array(
-        'name' => 'osumi/osumi-framework',
+        'name' => 'osumionline/osumi-framework',
         'pretty_version' => '9.0.0',
         'version' => '9.0.0.0',
         'reference' => NULL,
@@ -10,7 +10,7 @@
         'dev' => true,
     ),
     'versions' => array(
-        'osumi/osumi-framework' => array(
+        'osumionline/osumi-framework' => array(
             'pretty_version' => '9.0.0',
             'version' => '9.0.0.0',
             'reference' => NULL,
