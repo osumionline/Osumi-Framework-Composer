@@ -4,8 +4,58 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c0c17fb5ce09d97639706b749993d6bf",
-    "packages": [],
+    "content-hash": "37f83f1ffc61b5e8635ca8136a5543f3",
+    "packages": [
+        {
+            "name": "osumionline/framework",
+            "version": "9.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/osumionline/framework.git",
+                "reference": "c8720f59217ddda387e16928d0d8ad269564e46b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/osumionline/framework/zipball/c8720f59217ddda387e16928d0d8ad269564e46b",
+                "reference": "c8720f59217ddda387e16928d0d8ad269564e46b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Osumi\\OsumiFramework\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Iñigo Gorosabel",
+                    "homepage": "https://osumi.es",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Framework PHP de Osumi para aplicaciones web.",
+            "homepage": "https://github.com/osumionline/framework",
+            "keywords": [
+                "framework",
+                "osumi",
+                "php",
+                "web"
+            ],
+            "support": {
+                "issues": "https://github.com/osumionline/framework/issues",
+                "source": "https://github.com/osumionline/framework/tree/v9.0.0"
+            },
+            "time": "2024-08-30T13:53:17+00:00"
+        }
+    ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",

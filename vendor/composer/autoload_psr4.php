@@ -7,5 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Osumi\\OsumiFramework\\App\\' => array($baseDir . '/src'),
-    'Osumi\\OsumiFramework\\' => array($vendorDir . '/osumionline/osumi-framework/src'),
+    'Osumi\\OsumiFramework\\' => array($vendorDir . '/osumionline/framework/src'),
 );
