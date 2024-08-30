@@ -14,8 +14,7 @@ use Osumi\OsumiFramework\Tools\OColors;
 
 function taskOptions(array $ofw_task_list, array $app_task_list): string {
 	global $core;
-	$ret = "";
-	$ret .= OTools::getMessage('OFW_OPTIONS');
+	$ret = OTools::getMessage('OFW_OPTIONS');
 	asort($ofw_task_list);
 	foreach ($ofw_task_list as $task) {
 		$task_name = "\\Osumi\\OsumiFramework\\Task\\".$task."Task";
@@ -37,8 +36,6 @@ function taskOptions(array $ofw_task_list, array $app_task_list): string {
 $ofw_task_list = [];
 $app_task_list = [];
 $colors = new OColors();
-
-echo $core->config->getDir('ofw_task')."\n";
 
 // OFW Tasks
 if ($model = opendir($core->config->getDir('ofw_task'))) {
@@ -63,6 +60,7 @@ if (file_exists($core->config->getDir('app_task'))) {
 	}
 }
 
+// Check if the user chose an option
 if (!array_key_exists(1, $argv)) {
 	echo "\n  ".$colors->getColoredString("Osumi Framework", "white", "blue")."\n\n";
 	echo OTools::getMessage('OFW_INDICATE_OPTION');
@@ -71,24 +69,27 @@ if (!array_key_exists(1, $argv)) {
 }
 
 $option = $argv[1];
-if (!in_array($option, $ofw_task_list) && !in_array($option, $app_task_list)) {
+
+// Check if the given option is on the valid task list
+if (!in_array(ucfirst($option), $ofw_task_list) && !in_array(ucfirst($option), $app_task_list)) {
 	echo OTools::getMessage('OFW_WRONG_OPTION', [$option]);
 	echo taskOptions($ofw_task_list, $app_task_list);
 	exit;
 }
 
+// Remove CLI and selected option from the parameter list
 array_shift($argv);
 array_shift($argv);
 
-if (in_array($option, $ofw_task_list)) {
-	$task_name = "\\Osumi\\OsumiFramework\\Task\\".$option.'Task';
-	$task_file = $core->config->getDir('ofw_task').$option.'Task.php';
+// Get the name from the user's task list or the framework's task list
+if (in_array(ucfirst($option), $ofw_task_list)) {
+	$task_name = "\\Osumi\\OsumiFramework\\Task\\".ucfirst($option).'Task';
 }
-if (in_array($option, $app_task_list)) {
-	$task_name = "\\Osumi\\OsumiFramework\\App\\Task\\".$option.'Task';
-	$task_file = $core->config->getDir('app_task').$option.'Task.php';
+if (in_array(ucfirst($option), $app_task_list)) {
+	$task_name = "\\Osumi\\OsumiFramework\\App\\Task\\".ucfirst($option).'Task';
 }
 
+// Run given task
 $task = new $task_name;
 $task->loadTask();
 $task->run($argv);
