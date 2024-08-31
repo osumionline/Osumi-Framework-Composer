@@ -27,7 +27,7 @@ class resetTask extends OTask {
 	}
 
 	private function countDown(): void {
-		for ($i=15; $i>=0; $i--) {
+		for ($i=10; $i>=0; $i--) {
 			echo "  ";
 			if ($i<4) {
 				echo $this->getColors()->getColoredString(strval($i), 'red');
@@ -41,121 +41,57 @@ class resetTask extends OTask {
 	}
 
 	private function cleanData(): void {
-		// Components
-		if ($model = opendir($this->config->getDir('app_component'))) {
-			while (false !== ($entry = readdir($model))) {
-				if ($entry != '.' && $entry != '..') {
-					$this->rrmdir($this->config->getDir('app_component').$entry);
+		$clean_list = [
+			'app' => true,
+			'ofw' => true,
+			'public' => false
+		];
+
+		// Empty and delete folders
+		foreach ($clean_list as $value => $delete) {
+			if (is_dir($this->config->getDir($value))) {
+				if ($model = opendir($this->config->getDir($value))) {
+					while (false !== ($entry = readdir($model))) {
+						if ($entry != '.' && $entry != '..') {
+							$this->rrmdir($this->config->getDir($value).$entry);
+						}
+					}
+					closedir($model);
+				}
+				if ($delete) {
+					rmdir($this->config->getDir($value));
 				}
 			}
-			closedir($model);
 		}
 
-		// Config
-		if ($model = opendir($this->config->getDir('app_config'))) {
-			while (false !== ($entry = readdir($model))) {
-				if ($entry != '.' && $entry != '..') {
-					unlink($this->config->getDir('app_config').$entry);
-				}
-			}
-			closedir($model);
-		}
+		$create_list = [
+			'app',
+			'app_component',
+			'app_config',
+			'app_dto',
+			'app_filter',
+			'app_layout',
+			'app_model',
+			'app_module',
+			'app_service',
+			'app_task',
+			'app_utils',
+			'ofw',
+			'ofw_cache',
+			'ofw_export',
+			'ofw_tmp'
+		];
 
-		// DTO
-		if ($model = opendir($this->config->getDir('app_dto'))) {
-			while (false !== ($entry = readdir($model))) {
-				if ($entry != '.' && $entry != '..') {
-					unlink($this->config->getDir('app_dto').$entry);
-				}
-			}
-			closedir($model);
-		}
-
-		// Filters
-		if ($model = opendir($this->config->getDir('app_filter'))) {
-			while (false !== ($entry = readdir($model))) {
-				if ($entry != '.' && $entry != '..') {
-					unlink($this->config->getDir('app_filter').$entry);
-				}
-			}
-			closedir($model);
-		}
-
-		// Layout
-		if ($model = opendir($this->config->getDir('app_layout'))) {
-			while (false !== ($entry = readdir($model))) {
-				if ($entry != '.' && $entry != '..') {
-					unlink($this->config->getDir('app_layout').$entry);
-				}
-			}
-			closedir($model);
-		}
-
-		// Model
-		if ($model = opendir($this->config->getDir('app_model'))) {
-			while (false !== ($entry = readdir($model))) {
-				if ($entry != '.' && $entry != '..') {
-					unlink($this->config->getDir('app_model').$entry);
-				}
-			}
-			closedir($model);
-		}
-
-		// Module
-		if ($model = opendir($this->config->getDir('app_module'))) {
-			while (false !== ($entry = readdir($model))) {
-				if ($entry != '.' && $entry != '..') {
-					$this->rrmdir($this->config->getDir('app_module').$entry);
-				}
-			}
-			closedir($model);
-		}
-
-		// Service
-		if ($model = opendir($this->config->getDir('app_service'))) {
-			while (false !== ($entry = readdir($model))) {
-				if ($entry != '.' && $entry != '..') {
-					unlink($this->config->getDir('app_service').$entry);
-				}
-			}
-			closedir($model);
-		}
-
-		// Task
-		if ($model = opendir($this->config->getDir('app_task'))) {
-			while (false !== ($entry = readdir($model))) {
-				if ($entry != '.' && $entry != '..') {
-					unlink($this->config->getDir('app_task').$entry);
-				}
-			}
-			closedir($model);
-		}
-
-		// Cache
-		if ($model = opendir($this->config->getDir('ofw_cache'))) {
-			while (false !== ($entry = readdir($model))) {
-				if ($entry != '.' && $entry != '..' && $entry != '.gitignore') {
-					unlink($this->config->getDir('ofw_cache').$entry);
-				}
-			}
-			closedir($model);
-		}
-
-		// Export
-		if ($model = opendir($this->config->getDir('ofw_export'))) {
-			while (false !== ($entry = readdir($model))) {
-				if ($entry != '.' && $entry != '..' && $entry != '.gitignore') {
-					unlink($this->config->getDir('ofw_export').$entry);
-				}
-			}
-			closedir($model);
+		// Create framework folders again
+		foreach ($create_list as $value) {
+			mkdir($value);
 		}
 
 		// Generate default config.json
 		$default_config_json = "{\n";
 		$default_config_json .= "	\"name\": \"Osumi Framework\"\n";
 		$default_config_json .= "}";
-		$config_file = $this->config->getDir('app_config').'config.json';
+		$config_file = $this->config->getDir('app_config').'Config.json';
 		file_put_contents($config_file, $default_config_json);
 
 		// Generate default layout
@@ -175,7 +111,7 @@ class resetTask extends OTask {
 		$default_layout .= "		{{body}}\n";
 		$default_layout .= "	</body>\n";
 		$default_layout .= "</html>";
-		$layout_file = $this->config->getDir('app_layout').'default.php';
+		$layout_file = $this->config->getDir('app_layout').'DefaultLayout.php';
 		file_put_contents($layout_file, $default_layout);
 	}
 
@@ -212,7 +148,7 @@ class resetTask extends OTask {
 			file_put_contents($cache_file, json_encode($data));
 
 			echo "\n  ".OTools::getMessage('TASK_RESET_RESET_KEY_CREATED')."\n\n";
-			echo "    php ofw.php reset ".$data['key']."\n\n";
+			echo "    php of reset ".$data['key']."\n\n";
 		}
 		else {
 			if ($options[0] === 'silent') {
@@ -229,7 +165,7 @@ class resetTask extends OTask {
 				else {
 					echo "\n  ".$this->getColors()->getColoredString(OTools::getMessage('TASK_RESET_ERROR'), 'red')."\n\n";
 					echo "  ".OTools::getMessage('TASK_RESET_GET_NEW_KEY')."\n\n";
-					echo "    php ofw.php reset\n\n";
+					echo "    php of reset\n\n";
 				}
 			}
 		}
