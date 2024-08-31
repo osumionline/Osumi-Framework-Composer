@@ -14,16 +14,21 @@ class resetTask extends OTask {
 	}
 
 	private function rrmdir(string $dir): bool {
-		$files = array_diff(scandir($dir), array('.','..'));
-		foreach ($files as $file) {
-			if (is_dir($dir.'/'.$file)) {
-				$this->rrmdir($dir.'/'.$file);
+		if (is_dir($dir)) {
+			$files = array_diff(scandir($dir), array('.','..'));
+			foreach ($files as $file) {
+				if (is_dir($dir.'/'.$file)) {
+					$this->rrmdir($dir.'/'.$file);
+				}
+				else {
+					unlink($dir.'/'.$file);
+				}
 			}
-			else {
-				unlink($dir.'/'.$file);
-			}
+			return rmdir($dir);
 		}
-		return rmdir($dir);
+		else {
+			return unlink($dir);
+		}
 	}
 
 	private function countDown(): void {
@@ -84,7 +89,7 @@ class resetTask extends OTask {
 
 		// Create framework folders again
 		foreach ($create_list as $value) {
-			mkdir($value);
+			mkdir($this->config->getDir($value));
 		}
 
 		// Generate default config.json
@@ -113,6 +118,32 @@ class resetTask extends OTask {
 		$default_layout .= "</html>";
 		$layout_file = $this->config->getDir('app_layout').'DefaultLayout.php';
 		file_put_contents($layout_file, $default_layout);
+
+		// Generate default .htaccess
+		$default_htaccess = "Options +FollowSymLinks +ExecCGI\n\n";
+		$default_htaccess .= "<IfModule mod_rewrite.c>\n";
+		$default_htaccess .= "	RewriteEngine On\n";
+		$default_htaccess .= "	RewriteBase /\n\n";
+		$default_htaccess .= "	RewriteCond %{HTTP:Authorization} ^(.*)\n";
+		$default_htaccess .= "	RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]\n\n";
+		$default_htaccess .= "	RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]\n";
+		$default_htaccess .= "	RewriteRule ^(.*)$ http://%1/$1 [R=301,L]\n\n";
+		$default_htaccess .= "	RewriteCond %{REQUEST_FILENAME} !-f\n";
+		$default_htaccess .= "	RewriteRule ^(.*)$ index.php [QSA,L]\n";
+		$default_htaccess .= "</IfModule>\n";
+		$htaccess_file = $this->config->getDir('public').'.htaccess';
+		file_put_contents($htaccess_file, $default_htaccess);
+
+		// Generate default index file
+		$default_index = "<"."?php\n\n";
+		$default_index .= "require_once __DIR__ . '/../vendor/autoload.php';\n\n";
+		$default_index .= "use Osumi\OsumiFramework\Core\OCore;\n\n";
+		$default_index .= "$"."core = new OCore();\n";
+		$default_index .= "$"."core->load();\n\n";
+		$default_index .= "set_exception_handler([$"."core, 'errorHandler']);\n\n";
+		$default_index .= "$"."core->run();\n";
+		$index_file = $this->config->getDir('public').'index.php';
+		file_put_contents($index_file, $default_index);
 	}
 
 	/**
