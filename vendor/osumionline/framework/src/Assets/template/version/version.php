@@ -6,7 +6,7 @@
   <?php echo $values['colors']->getColoredString('Osumi Framework', 'white', 'blue') ?>
 
 
-  <?php echo OTools::getVersionInformation() ?>
+  <?php echo OTools::getVersion() ?> - <?php echo OTools::getVersionInformation() ?>
 
 
   <?php echo $values['colors']->getColoredString('GitHub', 'light_green').':  '.$values['repo_url'] ?>
