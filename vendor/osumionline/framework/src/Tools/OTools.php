@@ -782,15 +782,15 @@ class OTools {
 			mkdir($core->config->getDir('app_service'));
 		}
 
-		$service_file = $core->config->getDir('app_service').$name.'.service.php';
+		$service_file = $core->config->getDir('app_service').ucfirst($name).'Service.php';
 
 		if (file_exists($service_file)) {
 			return ['status' => 'exists', 'name' => $name];
 		}
 		$str_service = "<"."?php declare(strict_types=1);\n\n";
-		$str_service .= "namespace OsumiFramework\App\Service;\n\n";
-		$str_service .= "use OsumiFramework\OFW\Core\OService;\n\n";
-		$str_service .= "class ".$name."Service extends OService {\n";
+		$str_service .= "namespace Osumi\OsumiFramework\App\Service;\n\n";
+		$str_service .= "use Osumi\OsumiFramework\Core\OService;\n\n";
+		$str_service .= "class ".ucfirst($name)."Service extends OService {\n";
 		$str_service .= "	function __construct() {\n";
 		$str_service .= "		$"."this->loadService();\n";
 		$str_service .= "	}\n";

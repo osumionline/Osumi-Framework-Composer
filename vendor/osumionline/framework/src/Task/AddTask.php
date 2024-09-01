@@ -133,7 +133,7 @@ class addTask extends OTask {
 		}
 
 		$values['service_name'] = $params[1];
-		$values['service_file'] = $this->getConfig()->getDir('app_service').$values['service_name'].'.php';
+		$values['service_file'] = $this->getConfig()->getDir('app_service').ucfirst($values['service_name']).'Service.php';
 
 		$add = OTools::addService($values['service_name']);
 
