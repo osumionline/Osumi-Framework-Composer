@@ -39,9 +39,9 @@ class addTask extends OTask {
 		}
 
 		$values['module_name']    = $params[1];
-		$values['module_path']    = $this->getConfig()->getDir('app_module').$values['module_name'];
-		$values['module_actions'] = $values['module_path'].'/actions';
-		$values['module_file']    = $values['module_path'].'/'.$values['module_name'].'.module.php';
+		$values['module_path']    = $this->getConfig()->getDir('app_module').ucfirst($values['module_name'])."Module";
+		$values['module_actions'] = $values['module_path'].'/Actions';
+		$values['module_file']    = $values['module_path'].'/'.ucfirst($values['module_name']).'Module.php';
 
 		$add = OTools::addModule($values['module_name']);
 
@@ -78,17 +78,17 @@ class addTask extends OTask {
 		}
 
 		$values['module_name']    = $params[1];
-		$values['module_path']    = $this->getConfig()->getDir('app_module').$values['module_name'];
-		$values['module_actions'] = $values['module_path'].'/actions';
-		$values['module_file']    = $values['module_path'].'/'.$values['module_name'].'.module.php';
-		$values['action_name']    = $params[2];
+		$values['module_path']    = $this->getConfig()->getDir('app_module').ucfirst($values['module_name']).'Module';
+		$values['module_actions'] = $values['module_path'].'/Actions';
+		$values['module_file']    = $values['module_path'].'/'.ucfirst($values['module_name']).'Module.php';
+		$values['action_name']    = ucfirst($params[2]);
 		$values['action_url']     = $params[3];
 		$values['action_type']    = isset($params[4]) ? $params[4] : null;
 
 		$add = OTools::addAction($values['module_name'], $values['action_name'], $values['action_url'], $values['action_type']);
 		$values['action_folder']   = $values['module_actions'].'/'.$values['action_name'];
-		$values['action_file']     = $values['action_folder'].'/'.$values['action_name'].'.action.php';
-		$values['action_template'] = $values['action_folder'].'/'.$values['action_name'].'.action.'.$add['type'];
+		$values['action_file']     = $values['action_folder'].'/'.$values['action_name'].'Action.php';
+		$values['action_template'] = $values['action_folder'].'/'.$values['action_name'].'Action.'.$add['type'];
 
 		if ($add['status']=='no-module') {
 			$values['error'] = 2;
