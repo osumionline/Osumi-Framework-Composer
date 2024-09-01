@@ -1007,7 +1007,9 @@ class OTools {
 				continue;
 			}
 
-			$status = self::addModule($url['module']);
+			$module_name = lcfirst(preg_replace('/Module$/', '', $url['module']));
+			$status = self::addModule($module_name);
+
 			if ($status=='ok') {
 				$all_updated = false;
 				if (!$silent) {
