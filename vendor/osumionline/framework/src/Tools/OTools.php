@@ -879,17 +879,17 @@ class OTools {
 		$date_fields      = [OMODEL_CREATED, OMODEL_UPDATED, OMODEL_DATE];
 		$cont             = 0;
 
-		$component_name = self::underscoresToCamelCase($values['model_name'], true).'Component';
+		$component_name = $values['model_name'].'Component';
 
 		$list_component_content = "<"."?php declare(strict_types=1);\n\n";
-		$list_component_content .= "namespace OsumiFramework\App\Component\Model;\n\n";
-		$list_component_content .= "use OsumiFramework\OFW\Core\OComponent;\n\n";
+		$list_component_content .= "namespace Osumi\OsumiFramework\App\Component\Model\\".$values['list_name'].";\n\n";
+		$list_component_content .= "use Osumi\OsumiFramework\Core\OComponent;\n\n";
 		$list_component_content .= "class ".$values['list_name']." extends OComponent {}";
 
 		$list_template_content = "<"."?php\n";
-		$list_template_content .= "use OsumiFramework\\App\\Component\\Model\\".$component_name.";\n\n";
-		$list_template_content .= "foreach ($"."values['list'] as $"."i => $".strtolower($values['model_name']).") {\n";
-		$list_template_content .= "  $"."component = new ".$values['component_name']."([ '".strtolower($values['model_name'])."' => $".strtolower($values['model_name'])." ]);\n";
+		$list_template_content .= "use Osumi\OsumiFramework\App\Component\Model\\".$component_name."\\".$component_name.";\n\n";
+		$list_template_content .= "foreach ($"."values['list'] as $"."i => $".$values['model_name'].") {\n";
+		$list_template_content .= "  $"."component = new ".$values['component_name']."([ '".$values['model_name']."' => $".$values['model_name']." ]);\n";
 		$list_template_content .= "	echo strval($"."component);\n";
 		$list_template_content .= "	if ($"."i<count($"."values['list'])-1) {\n";
 		$list_template_content .= "		echo \",\\n\";\n";
@@ -904,11 +904,11 @@ class OTools {
 		}
 
 		$component_content = "<"."?php declare(strict_types=1);\n\n";
-		$component_content .= "namespace OsumiFramework\App\Component\Model;\n\n";
-		$component_content .= "use OsumiFramework\OFW\Core\OComponent;\n\n";
-		$component_content .= "class ".$values['component_name']." extends OComponent {}";
+		$component_content .= "namespace Osumi\OsumiFramework\App\Component\Model\\".$component_name.";\n\n";
+		$component_content .= "use Osumi\OsumiFramework\Core\OComponent;\n\n";
+		$component_content .= "class ".$component_name." extends OComponent {}";
 
-		$template_content = "<"."?php if (is_null($"."values['".strtolower($values['model_name'])."'])): ?>\n";
+		$template_content = "<"."?php if (is_null($"."values['".$values['model_name']."'])): ?>\n";
 		$template_content .= "null\n";
 		$template_content .= "<"."?php else: ?>\n";
 		$template_content .= "{\n";
@@ -920,25 +920,25 @@ class OTools {
 			}
 
 			if ($field->getType()===OMODEL_BOOL) {
-				$template_content .= "<"."?php echo $"."values['".strtolower($values['model_name'])."']->get('".$field->getName()."') ? 'true' : 'false' ?>";
+				$template_content .= "<"."?php echo $"."values['".$values['model_name']."']->get('".$field->getName()."') ? 'true' : 'false' ?>";
 			}
 			elseif ($field->getNullable() && in_array($field->getType(), $date_fields)) {
-				$template_content .= "<"."?php echo is_null($"."values['".strtolower($values['model_name'])."']->get('".$field->getName()."')) ? 'null' : $"."values['".strtolower($values['model_name'])."']->get('".$field->getName()."', 'd/m/Y H:i:s') ?>";
+				$template_content .= "<"."?php echo is_null($"."values['".$values['model_name']."']->get('".$field->getName()."')) ? 'null' : $"."values['".$values['model_name']."']->get('".$field->getName()."', 'd/m/Y H:i:s') ?>";
 			}
 			elseif (!$field->getNullable() && in_array($field->getType(), $date_fields)) {
-				$template_content .= "<"."?php echo $"."values['".strtolower($values['model_name'])."']->get('".$field->getName()."', 'd/m/Y H:i:s') ?>";
+				$template_content .= "<"."?php echo $"."values['".$values['model_name']."']->get('".$field->getName()."', 'd/m/Y H:i:s') ?>";
 			}
 			elseif ($field->getNullable() && !in_array($field->getType(), $urlencode_fields)) {
-				$template_content .= "<"."?php echo is_null($"."values['".strtolower($values['model_name'])."']->get('".$field->getName()."')) ? 'null' : $"."values['".strtolower($values['model_name'])."']->get('".$field->getName()."') ?>";
+				$template_content .= "<"."?php echo is_null($"."values['".$values['model_name']."']->get('".$field->getName()."')) ? 'null' : $"."values['".$values['model_name']."']->get('".$field->getName()."') ?>";
 			}
 			elseif (!$field->getNullable() && !in_array($field->getType(), $urlencode_fields)) {
-				$template_content .= "<"."?php echo $"."values['".strtolower($values['model_name'])."']->get('".$field->getName()."') ?>";
+				$template_content .= "<"."?php echo $"."values['".$values['model_name']."']->get('".$field->getName()."') ?>";
 			}
 			elseif ($field->getNullable() && in_array($field->getType(), $urlencode_fields)) {
-				$template_content .= "<"."?php echo is_null($"."values['".strtolower($values['model_name'])."']->get('".$field->getName()."')) ? 'null' : urlencode($"."values['".strtolower($values['model_name'])."']->get('".$field->getName()."')) ?>";
+				$template_content .= "<"."?php echo is_null($"."values['".$values['model_name']."']->get('".$field->getName()."')) ? 'null' : urlencode($"."values['".$values['model_name']."']->get('".$field->getName()."')) ?>";
 			}
 			elseif (!$field->getNullable() && in_array($field->getType(), $urlencode_fields)) {
-				$template_content .= "<"."?php echo urlencode($"."values['".strtolower($values['model_name'])."']->get('".$field->getName()."')) ?>";
+				$template_content .= "<"."?php echo urlencode($"."values['".$values['model_name']."']->get('".$field->getName()."')) ?>";
 			}
 
 			if (in_array($field->getType(), $text_fields) || in_array($field->getType(), $date_fields)) {

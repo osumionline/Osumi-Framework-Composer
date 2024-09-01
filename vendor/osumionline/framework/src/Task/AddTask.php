@@ -225,7 +225,7 @@ class addTask extends OTask {
 				while (false !== ($entry = readdir($model))) {
 					if ($entry != '.' && $entry != '..') {
 						$model_content = file_get_contents($this->config->getDir('app_model').$entry);
-						if (stripos($model_content, 'class '.$values['model_name']) !== false) {
+						if (stripos($model_content, 'class '.$values['model_name'].' extends') !== false) {
 							$values['model_file'] = $this->getConfig()->getDir('app_model').$entry;
 							break;
 						}
@@ -241,17 +241,17 @@ class addTask extends OTask {
 			exit;
 		}
 
-		$model_name = "\\OsumiFramework\\App\\Model\\".$values['model_name'];
+		$model_name = "\\Osumi\\OsumiFramework\\App\\Model\\".$values['model_name'];
 		$model = new $model_name;
 		$values['model'] = $model->getModel();
-		$values['list_name']          = OTools::underscoresToCamelCase($values['model_name'], true).'ListComponent';
-		$values['list_folder']        = $this->getConfig()->getDir('app_component').'model/'.strtolower($values['model_name']).'_list/';
-		$values['list_file']          = strtolower($values['model_name']).'_list.component.php';
-		$values['list_template_file'] = strtolower($values['model_name']).'_list.template.php';
-		$values['component_name']          = OTools::underscoresToCamelCase($values['model_name'], true).'Component';
-		$values['component_folder']        = $this->getConfig()->getDir('app_component').'model/'.strtolower($values['model_name']).'/';
-		$values['component_file']          = strtolower($values['model_name']).'.component.php';
-		$values['component_template_file'] = strtolower($values['model_name']).'.template.php';
+		$values['list_name']          = $values['model_name'].'ListComponent';
+		$values['list_folder']        = $this->getConfig()->getDir('app_component').'Model/'.$values['model_name'].'List/';
+		$values['list_file']          = $values['model_name'].'ListComponent.php';
+		$values['list_template_file'] = $values['model_name'].'ListTemplate.php';
+		$values['component_name']          = $values['model_name'].'Component';
+		$values['component_folder']        = $this->getConfig()->getDir('app_component').'Model/'.$values['model_name'].'/';
+		$values['component_file']          = $values['model_name'].'Component.php';
+		$values['component_template_file'] = $values['model_name'].'Template.php';
 
 		$add = OTools::addModelComponent($values);
 		if ($add=='list-folder-exists') {
