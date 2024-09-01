@@ -815,8 +815,8 @@ class OTools {
 			mkdir($core->config->getDir('app_task'));
 		}
 
-		$task_file = $core->config->getDir('app_task').$name.'.task.php';
-		$ofw_task_file = $core->config->getDir('ofw_task').$name.'.task.php';
+		$task_file = $core->config->getDir('app_task').ucfirst($name).'Task.php';
+		$ofw_task_file = $core->config->getDir('ofw_task').ucfirst($name).'Task.php';
 
 		if (file_exists($task_file)) {
 			return ['status' => 'exists', 'name' => $name];
@@ -828,9 +828,9 @@ class OTools {
 		$str_message = str_ireplace('"', '\"', self::getMessage('TASK_ADD_TASK_MESSAGE', [$name]));
 
 		$str_task = "<"."?php declare(strict_types=1);\n\n";
-		$str_task .= "namespace OsumiFramework\App\Task;\n\n";
-		$str_task .= "use OsumiFramework\OFW\Core\OTask;\n\n";
-		$str_task .= "class ".$name."Task extends OTask {\n";
+		$str_task .= "namespace Osumi\OsumiFramework\App\Task;\n\n";
+		$str_task .= "use Osumi\OsumiFramework\Core\OTask;\n\n";
+		$str_task .= "class ".ucfirst($name)."Task extends OTask {\n";
 		$str_task .= "	public function __toString() {\n";
 		$str_task .= "		return \"".$name.": ".$str_message."\";\n";
 		$str_task .= "	}\n\n";

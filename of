@@ -29,7 +29,7 @@ function taskOptions(array $ofw_task_list, array $app_task_list): string {
 		$task->loadTask();
 		$ret .= "  ·  ".$task."\n";
 	}
-	$ret .= "\n".OTools::getMessage('OFW_EXAMPLE').": php of ".$ofw_task_list[0]."\n\n";
+	$ret .= "\n".OTools::getMessage('OFW_EXAMPLE').": php of ".lcfirst($ofw_task_list[0])."\n\n";
 	return $ret;
 }
 

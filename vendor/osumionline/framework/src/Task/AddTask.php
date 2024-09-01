@@ -170,7 +170,7 @@ class addTask extends OTask {
 		}
 
 		$values['task_name'] = $params[1];
-		$values['task_file'] = $this->getConfig()->getDir('app_task').$values['task_name'].'.task.php';
+		$values['task_file'] = $this->getConfig()->getDir('app_task').ucfirst($values['task_name']).'Task.php';
 
 		$add = OTools::addTask($values['task_name']);
 
@@ -181,7 +181,7 @@ class addTask extends OTask {
 		}
 		if ($add['status']=='ofw-exists') {
 			$values['error'] = 2;
-			$values['task_file'] = $this->getConfig()->getDir('ofw_task').$values['task_name'].'.task.php';
+			$values['task_file'] = $this->getConfig()->getDir('ofw_task').ucfirst($values['task_name']).'Task.php';
 			echo OTools::getPartial($path, $values);
 			exit;
 		}
