@@ -21,8 +21,5 @@
     "psr-4": {
       "Osumi\\OsumiFramework\\": "src/"
     }
-  },
-  "extra": {
-    "version-description": "Cambio del framework a Composer"
   }
 }

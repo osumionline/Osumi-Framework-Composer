@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "37f83f1ffc61b5e8635ca8136a5543f3",
+    "content-hash": "f36e5da18d9bb165c55bcc8316266ca2",
     "packages": [
         {
             "name": "osumionline/framework",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/osumionline/framework.git",
-                "reference": "c8720f59217ddda387e16928d0d8ad269564e46b"
+                "reference": "0cc75e04a4320aa1c5dd2cfe671b12fd8bf6198a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/osumionline/framework/zipball/c8720f59217ddda387e16928d0d8ad269564e46b",
-                "reference": "c8720f59217ddda387e16928d0d8ad269564e46b",
+                "url": "https://api.github.com/repos/osumionline/framework/zipball/0cc75e04a4320aa1c5dd2cfe671b12fd8bf6198a",
+                "reference": "0cc75e04a4320aa1c5dd2cfe671b12fd8bf6198a",
                 "shasum": ""
             },
             "require": {
@@ -53,7 +53,109 @@
                 "issues": "https://github.com/osumionline/framework/issues",
                 "source": "https://github.com/osumionline/framework/tree/v9.0.0"
             },
-            "time": "2024-08-30T13:53:17+00:00"
+            "time": "2024-09-02T10:01:32+00:00"
+        },
+        {
+            "name": "osumionline/plugin-browser",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/osumionline/plugin-browser.git",
+                "reference": "aabc9dd97466be637f2a78cfe1d7927e12233e1b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/osumionline/plugin-browser/zipball/aabc9dd97466be637f2a78cfe1d7927e12233e1b",
+                "reference": "aabc9dd97466be637f2a78cfe1d7927e12233e1b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Osumi\\OsumiFramework\\Plugins\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Plugin OBrowser para Osumi Framework",
+            "support": {
+                "issues": "https://github.com/osumionline/plugin-browser/issues",
+                "source": "https://github.com/osumionline/plugin-browser/tree/v3.0.0"
+            },
+            "time": "2024-09-02T10:44:06+00:00"
+        },
+        {
+            "name": "osumionline/plugin-crypt",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/osumionline/plugin-crypt.git",
+                "reference": "548060426041d0bfe3a1cc8a937b6bd933ea57ce"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/osumionline/plugin-crypt/zipball/548060426041d0bfe3a1cc8a937b6bd933ea57ce",
+                "reference": "548060426041d0bfe3a1cc8a937b6bd933ea57ce",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Osumi\\OsumiFramework\\Plugins\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Plugin OCrypt para Osumi Framework",
+            "support": {
+                "issues": "https://github.com/osumionline/plugin-crypt/issues",
+                "source": "https://github.com/osumionline/plugin-crypt/tree/v3.0.0"
+            },
+            "time": "2024-09-02T13:01:25+00:00"
+        },
+        {
+            "name": "osumionline/plugin-otoken",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/osumionline/plugin-otoken.git",
+                "reference": "550f7bfc9553d1f5881390ad97f325e8f4685c93"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/osumionline/plugin-otoken/zipball/550f7bfc9553d1f5881390ad97f325e8f4685c93",
+                "reference": "550f7bfc9553d1f5881390ad97f325e8f4685c93",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Osumi\\OsumiFramework\\Plugins\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Plugin OToken para Osumi Framework",
+            "support": {
+                "issues": "https://github.com/osumionline/plugin-otoken/issues",
+                "source": "https://github.com/osumionline/plugin-otoken/tree/v3.0.0"
+            },
+            "time": "2024-09-02T07:56:34+00:00"
         }
     ],
     "packages-dev": [],

@@ -6,6 +6,9 @@ use Osumi\OsumiFramework\Routing\OModuleAction;
 use Osumi\OsumiFramework\Routing\OAction;
 use Osumi\OsumiFramework\Web\ORequest;
 use Osumi\OsumiFramework\App\Component\Home\UsersComponent\UsersComponent;
+use Osumi\OsumiFramework\Plugins\OToken;
+use Osumi\OsumiFramework\Plugins\OBrowser;
+use Osumi\OsumiFramework\Plugins\OCrypt;
 
 #[OModuleAction(
 	url: '/',
@@ -21,10 +24,30 @@ class StartAction extends OAction {
 	 * @return void
 	 */
 	public function run(ORequest $req):void {
-		$users = $this->User_service->getUsers();
+		$users = $this->service['User']->getUsers();
 		$users_component = new UsersComponent(['users' => $users]);
 
-		$this->getTemplate()->add('date', $this->User_service->getLastUpdate());
+		$tk = new OToken("1234bf577a76645dbabcdbc379998243ac1c1234");
+		$tk->addParam('id', 1);
+		$tk->addParam('name', 'Name');
+		$tk->addParam('email', 'email@address.com');
+		$tk->addParam('exp', time() + (24 * 60 * 60));
+
+		$token = $tk->getToken();
+
+		$browser = new OBrowser();
+		$browser->setUA( $_SERVER['HTTP_USER_AGENT'] );
+
+		// var_dump($browser->getBrowserData());
+
+		$crypt = new OCrypt('secret_key');
+		$encrypted_text = $crypt->encrypt('text');
+		$decrypted_text = $crypt->decrypt('amVBUGpsSmoyNFYxTU1GZnlGMmRwZz09OjorihnigpKsPrN5SND+/t73');
+
+		$this->getTemplate()->add('date', $this->service['User']->getLastUpdate());
 		$this->getTemplate()->add('users', $users_component);
+		$this->getTemplate()->add('token', $token);
+		$this->getTemplate()->add('encrypted_text', $encrypted_text);
+		$this->getTemplate()->add('decrypted_text', $decrypted_text);
 	}
 }
