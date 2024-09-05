@@ -6,7 +6,8 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Osumi\\OsumiFramework\\Plugins\\' => array($vendorDir . '/osumionline/plugin-browser/src', $vendorDir . '/osumionline/plugin-otoken/src', $vendorDir . '/osumionline/plugin-crypt/src'),
+    'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
+    'Osumi\\OsumiFramework\\Plugins\\' => array($vendorDir . '/osumionline/plugin-browser/src', $vendorDir . '/osumionline/plugin-crypt/src', $vendorDir . '/osumionline/plugin-email/src', $vendorDir . '/osumionline/plugin-email-smtp/src', $vendorDir . '/osumionline/plugin-file/src', $vendorDir . '/osumionline/plugin-ftp/src', $vendorDir . '/osumionline/plugin-otoken/src', $vendorDir . '/osumionline/plugin-image/src'),
     'Osumi\\OsumiFramework\\App\\' => array($baseDir . '/src'),
     'Osumi\\OsumiFramework\\' => array($vendorDir . '/osumionline/framework/src'),
 );

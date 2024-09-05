@@ -17,6 +17,11 @@
     "osumionline/framework": "^9.0",
     "osumionline/plugin-browser": "^3.0",
     "osumionline/plugin-crypt": "^3.0",
+    "osumionline/plugin-email": "^3.0",
+    "osumionline/plugin-email-smtp": "^3.0",
+    "osumionline/plugin-file": "^3.0",
+    "osumionline/plugin-ftp": "^3.0",
+    "osumionline/plugin-image": "^3.0",
     "osumionline/plugin-otoken": "^3.0"
   },
   "autoload": {

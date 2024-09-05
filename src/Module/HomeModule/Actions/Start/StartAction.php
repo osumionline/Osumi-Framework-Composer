@@ -5,10 +5,11 @@ namespace Osumi\OsumiFramework\App\Module\HomeModule\Actions\Start;
 use Osumi\OsumiFramework\Routing\OModuleAction;
 use Osumi\OsumiFramework\Routing\OAction;
 use Osumi\OsumiFramework\Web\ORequest;
-use Osumi\OsumiFramework\App\Component\Home\UsersComponent\UsersComponent;
+use Osumi\OsumiFramework\App\Component\Home\Users\UsersComponent;
 use Osumi\OsumiFramework\Plugins\OToken;
 use Osumi\OsumiFramework\Plugins\OBrowser;
 use Osumi\OsumiFramework\Plugins\OCrypt;
+use Osumi\OsumiFramework\Plugins\OImage;
 
 #[OModuleAction(
 	url: '/',
@@ -43,6 +44,14 @@ class StartAction extends OAction {
 		$crypt = new OCrypt('secret_key');
 		$encrypted_text = $crypt->encrypt('text');
 		$decrypted_text = $crypt->decrypt('amVBUGpsSmoyNFYxTU1GZnlGMmRwZz09OjorihnigpKsPrN5SND+/t73');
+
+		$image = new OImage();
+		$image->load($this->getConfig()->getDir('public').'photo/1.jpg');
+		$nueva_ruta = $this->getConfig()->getDir('public').'photo/1.webp';
+		if (file_exists($nueva_ruta)) {
+			unlink($nueva_ruta);
+		}
+		$image->save($nueva_ruta, IMAGETYPE_WEBP, 100, 100);
 
 		$this->getTemplate()->add('date', $this->service['User']->getLastUpdate());
 		$this->getTemplate()->add('users', $users_component);
