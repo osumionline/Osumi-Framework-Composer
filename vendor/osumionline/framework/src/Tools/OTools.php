@@ -962,7 +962,7 @@ class OTools {
 	}
 
 	/**
-	 * Creates a model component file and a component for lists of such model
+	 * Creates a empty component file
 	 *
 	 * @param array $values Information about the files that have to be created
 	 *
@@ -992,6 +992,36 @@ class OTools {
 		file_put_contents($values['component_file'], $str_component);
 
 		file_put_contents($values['template_file'], self::getMessage('TASK_ADD_COMPONENT_TEMPLATE', [$values['component_name']]));
+
+		return 'ok';
+	}
+
+	/**
+	 * Creates a empty filter file
+	 *
+	 * @param array $values Information about the files that have to be created
+	 *
+	 * @return string Status of the operation
+	 */
+	public static function addFilter(array $values): string {
+		global $core;
+
+		// If filters folder does not exist I create it before doing anything else
+		if (!is_dir($core->config->getDir('app_filter'))) {
+			mkdir($core->config->getDir('app_filter'));
+		}
+
+		// Check if component already exists
+		if (file_exists($values['filter_file'])) {
+			return 'exists';
+		}
+
+		$template_path = $core->config->getDir('ofw_template').'add/filterTemplate.php';
+		$str_component = self::getTemplate($template_path, '', [
+			'name' => $values['filter_name'],
+			'description' => self::getMessage('TASK_ADD_FILTER_TEMPLATE', [$values['filter_name']])
+		]);
+		file_put_contents($values['filter_file'], $str_component);
 
 		return 'ok';
 	}

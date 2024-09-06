@@ -398,7 +398,10 @@ msgid "TASK_ADD_DEFAULT_MODEL_COMPONENT"
 msgstr "Crea un componente para un modelo"
 
 msgid "TASK_ADD_DEFAULT_COMPONENT"
-msgstr "Crea un componente en blanco"
+msgstr "Crea un nuevo componente"
+
+msgid "TASK_ADD_DEFAULT_FILTER"
+msgstr "Crea un nuevo filtro"
 
 msgid "TASK_ADD_MODULE_ERROR"
 msgstr "Debes indicar el nombre del módulo que quieres crear, por ejemplo:"
@@ -516,6 +519,21 @@ msgstr "Nuevo archivo "%s" creado."
 
 msgid "TASK_ADD_COMPONENT_TEMPLATE"
 msgstr "El componente "%s" funciona."
+
+msgid "TASK_ADD_FILTER_ERROR"
+msgstr "Debes indicar el nombre del filtro que quieres crear, por ejemplo:"
+
+msgid "TASK_ADD_FILTER_EXISTS"
+msgstr "El filtro "%s" ya existe."
+
+msgid "TASK_ADD_FILTER_NEW_FILTER"
+msgstr "Nuevo filtro "%s" creado:"
+
+msgid "TASK_ADD_FILTER_NEW_FILE"
+msgstr "Nuevo archivo "%s" creado."
+
+msgid "TASK_ADD_FILTER_TEMPLATE"
+msgstr "Nuevo filtro "%s"."
 
 msgid "OFW_INDICATE_OPTION"
 msgstr "  Tienes que indicar una opción.\n"

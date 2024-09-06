@@ -347,6 +347,43 @@ class addTask extends OTask {
 	}
 
 	/**
+	 * Creates a new filter with the given parameters
+	 *
+	 * @param array Array with the action "filter" and the name of the new component
+	 *
+	 * @return void
+	 */
+	private function createFilter(array $params): void {
+		$path = $this->getConfig()->getDir('ofw_template').'add/createFilter.php';
+		$values = [
+			'colors'    => $this->getColors(),
+			'filter_name' => '',
+			'filter_file' => '',
+			'error'     => 0
+		];
+
+		if (count($params)<2) {
+			$values['error'] = 1;
+			echo OTools::getPartial($path, $values);
+			exit;
+		}
+
+		$values['filter_name'] = ucfirst($params[1]);
+		$values['filter_file'] = $this->getConfig()->getDir('app_filter').$values['filter_name'].'Filter.php';
+
+		$add = OTools::addFilter($values);
+
+		if ($add=='exists') {
+			$values['error'] = 2;
+			echo OTools::getPartial($path, $values);
+			exit;
+		}
+
+		echo OTools::getPartial($path, $values);
+		exit;
+	}
+
+	/**
 	 * Run the task
 	 *
 	 * @param array Command line parameters: option and name
@@ -354,7 +391,7 @@ class addTask extends OTask {
 	 * @return void Echoes framework information
 	 */
 	public function run(array $params): void {
-		$available_options = ['module', 'action', 'service', 'task', 'modelComponent','component'];
+		$available_options = ['module', 'action', 'service', 'task', 'modelComponent','component', 'filter'];
 		$option = (count($params)>0) ? $params[0] : 'none';
 		$option = in_array($option, $available_options) ? $option : 'none';
 
@@ -381,6 +418,10 @@ class addTask extends OTask {
 			break;
 			case 'component': {
 				$this->createComponent($params);
+			}
+			break;
+			case 'filter': {
+				$this->createFilter($params);
 			}
 			break;
 			case 'none': {

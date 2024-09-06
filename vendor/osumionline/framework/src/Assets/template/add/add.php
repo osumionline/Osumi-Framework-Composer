@@ -20,4 +20,6 @@
 
   · <?php echo $values['colors']->getColoredString('component', 'light_green') ?>: <?php echo OTools::getMessage('TASK_ADD_DEFAULT_COMPONENT') ?>
 
+  · <?php echo $values['colors']->getColoredString('filter', 'light_green') ?>: <?php echo OTools::getMessage('TASK_ADD_DEFAULT_FILTER') ?>
+
  

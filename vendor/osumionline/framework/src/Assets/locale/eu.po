@@ -398,7 +398,10 @@ msgid "TASK_ADD_DEFAULT_MODEL_COMPONENT"
 msgstr "Modulurako osagai berri bat sortu"
 
 msgid "TASK_ADD_DEFAULT_COMPONENT"
-msgstr "Osagai huts berri bat sortu"
+msgstr "Osagai berri bat sortu"
+
+msgid "TASK_ADD_DEFAULT_FILTER"
+msgstr "Iragazki berri bat sortu"
 
 msgid "TASK_ADD_MODULE_ERROR"
 msgstr "Sortu nahi duzun moduluaren izena adierazi behar duzu, adibidez:"
@@ -516,6 +519,21 @@ msgstr ""%s" fitxategi berria sortua."
 
 msgid "TASK_ADD_COMPONENT_TEMPLATE"
 msgstr ""%s" osagaia ondo dabil."
+
+msgid "TASK_ADD_FILTER_ERROR"
+msgstr "Sortu nahi duzun iragazkiaren izena adierazi behar duzu, adibidez:"
+
+msgid "TASK_ADD_FILTER_EXISTS"
+msgstr ""%s" iragazkia jada badago."
+
+msgid "TASK_ADD_FILTER_NEW_FILTER"
+msgstr ""%s" iragazki berria sortua."
+
+msgid "TASK_ADD_FILTER_NEW_FILE"
+msgstr ""%s" fitxategi berria sortua."
+
+msgid "TASK_ADD_FILTER_TEMPLATE"
+msgstr ""%s" iragazki berria."
 
 msgid "OFW_INDICATE_OPTION"
 msgstr "  Aukera bat aukeratu behar duzu.\n"
