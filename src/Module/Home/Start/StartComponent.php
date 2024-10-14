@@ -2,20 +2,32 @@
 
 namespace Osumi\OsumiFramework\App\Module\Home\Start;
 
-use Osumi\OsumiFramework\Routing\OAction;
+use Osumi\OsumiFramework\Core\OComponent;
 use Osumi\OsumiFramework\Web\ORequest;
-use Osumi\OsumiFramework\App\Component\Home\Users\UsersComponent;
 use Osumi\OsumiFramework\Plugins\OToken;
 use Osumi\OsumiFramework\Plugins\OBrowser;
 use Osumi\OsumiFramework\Plugins\OCrypt;
 use Osumi\OsumiFramework\Plugins\OImage;
+use Osumi\OsumiFramework\App\Service\UserService;
+use Osumi\OsumiFramework\App\Component\Home\UserList\UserListComponent;
 
-class StartAction extends OAction {
+class StartComponent extends OComponent {
+	private ?UserService $us = null;
+
 	public string $date = '';
-	public ?UsersComponent $users;
+	public ?UserListComponent $users;
 	public string $token = '';
 	public string $encrypted_text = '';
 	public string $decrypted_text = '';
+
+	public function __construct() {
+		parent::__construct();
+		$this->addInlineCss('start');
+		$this->addInlineJs('start');
+		$this->addInlineJs('test');
+
+		$this->us = inject(UserService::class);
+	}
 
 	/**
 	 * Start page
@@ -24,9 +36,9 @@ class StartAction extends OAction {
 	 * @return void
 	 */
 	public function run(ORequest $req):void {
-		$this->date = $this->service['User']->getLastUpdate();
+		$this->date = $this->us->getLastUpdate();
 
-		$this->users = new UsersComponent(['users' => $this->service['User']->getUsers()]);
+		$this->users = new UserListComponent(['list' => $this->us->getUsers()]);
 
 		$tk = new OToken("1234bf577a76645dbabcdbc379998243ac1c1234");
 		$tk->addParam('id', 1);

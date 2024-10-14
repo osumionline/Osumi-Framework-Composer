@@ -12,7 +12,7 @@
   }
 
   function loadDate(){
-    fetch('/api/getDate')
+    fetch('/api/get-date')
       .then((response) => response.json())
       .then((obj) => {
         document.querySelector('#date-box').innerHTML = urldecode(obj.date);
