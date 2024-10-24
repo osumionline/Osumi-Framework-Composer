@@ -3,7 +3,6 @@
 namespace Osumi\OsumiFramework\App\Service;
 
 use Osumi\OsumiFramework\Core\OService;
-use Osumi\OsumiFramework\DB\ODB;
 use Osumi\OsumiFramework\App\Model\User;
 
 class UserService extends OService {
@@ -22,18 +21,7 @@ class UserService extends OService {
 	 * @return array List of all users
 	 */
 	public function getUsers(): array {
-		$db = new ODB();
-		$sql = "SELECT * FROM `user`";
-		$db->query($sql);
-		$list = [];
-
-		while ($res=$db->next()) {
-			$user = new User();
-			$user->update($res);
-			array_push($list, $user);
-		}
-
-		return $list;
+		return User::all();
 	}
 
 	/**
@@ -41,12 +29,9 @@ class UserService extends OService {
 	 *
 	 * @param int $id Id of the user
 	 *
-	 * @return User Asked user
+	 * @return ?User Asked user, if found
 	 */
-	public function getUser(int $id): User {
-		$user = new User();
-		$user->find(['id'=>$id]);
-
-		return $user;
+	public function getUser(int $id): ?User {
+		return User::findOne(['id' => $id]);
 	}
 }

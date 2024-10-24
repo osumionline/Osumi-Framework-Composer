@@ -37,7 +37,6 @@ class StartComponent extends OComponent {
 	 */
 	public function run(ORequest $req):void {
 		$this->date = $this->us->getLastUpdate();
-
 		$this->users = new UserListComponent(['list' => $this->us->getUsers()]);
 
 		$tk = new OToken("1234bf577a76645dbabcdbc379998243ac1c1234");

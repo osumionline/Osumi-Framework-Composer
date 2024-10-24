@@ -3,7 +3,6 @@
 namespace Osumi\OsumiFramework\App\Service;
 
 use Osumi\OsumiFramework\Core\OService;
-use Osumi\OsumiFramework\DB\ODB;
 use Osumi\OsumiFramework\App\Model\Photo;
 
 class PhotoService extends OService {
@@ -15,19 +14,20 @@ class PhotoService extends OService {
 	 * @return array Photo list
 	 */
 	public function getPhotos(int $id): array {
-		$db = new ODB();
-		$sql = "SELECT * FROM `photo` WHERE `id_user` = ?";
-		$db->query($sql, [$id]);
-
-		$photos = [];
-		while ($res=$db->next()){
-			$photo = new Photo();
-			$photo->update($res);
-
-			array_push($photos, $photo);
-		}
+		$photos = Photo::where(['id_user' => $id]);
 
 		$this->log->debug('Photos: '.count($photos));
 		return $photos;
+	}
+
+	/**
+	 * Get given photo
+	 *
+	 * @param int $id Photo's Id
+	 *
+	 * @return Photo Required photo
+	 */
+	public function getPhoto(int $id): ?Photo {
+		return Photo::findOne(['id' => $id]);
 	}
 }
